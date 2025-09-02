@@ -1,8 +1,11 @@
-#include <iostream>
+﻿#include <iostream>
 #include <list>
 
 using namespace std;
 
+/// <summary>
+/// 2分木の要素を表す構造体
+/// </summary>
 struct BTree
 {
 	int data;
@@ -10,7 +13,12 @@ struct BTree
 	BTree* nextL{ nullptr };
 };
 
-void PrintTree(BTree* p, int depth)
+/// <summary>
+/// 2分木の子を構造的に表示する関数
+/// </summary>
+/// <param name="p">子を表示したい親のポインタ</param>
+/// <param name="depth">深さ</param>
+static void PrintTree(BTree* p, int depth = 0)
 {
 	static auto printDepth
 	{
@@ -18,7 +26,7 @@ void PrintTree(BTree* p, int depth)
 		{
 			for (int i = 0; i < depth; i++)
 			{
-				printf(" ");
+				printf("-");
 			}
 		}
 	};
@@ -29,12 +37,13 @@ void PrintTree(BTree* p, int depth)
 	}
 	PrintTree(p->nextL, depth + 2);
 	printDepth(depth);
-	printf("%d\n", p->data);
+	printf("%c\n", 'A' + p->data);
 	PrintTree(p->nextR, depth + 2);
 }
 
 int main()
 {
+#pragma region 授業内で出てきた2分木を保存
 	enum NAME
 	{
 		A,
@@ -47,13 +56,14 @@ int main()
 
 	BTree t[NAME::MAX]{};
 
-	t[A] = { 1, &t[B], &t[C] };
-	t[B] = { 2, &t[D], &t[E] };
-	t[C] = { 3, nullptr, nullptr };
-	t[D] = { 4, nullptr, nullptr };
-	t[E] = { 5, nullptr, nullptr };
+	t[A] = { A, &t[B], &t[C] };
+	t[B] = { B, &t[D], &t[E] };
+	t[C] = { C, nullptr, nullptr };
+	t[D] = { D, nullptr, nullptr };
+	t[E] = { E, nullptr, nullptr };
+#pragma endregion
 
-	PrintTree(&t[A], 0);
+	PrintTree(&t[A]);  // 表示！
 
 	return 0;
 }
